@@ -25,5 +25,7 @@ export const fr = {
     text18: 'Proxy',
     text19: 'Format',
     text20: 'Tile Process',
+    text21: 'Précision',
+    text22: 'FP32 : précision complète, plus précise mais plus de VRAM. FP16 : moitié moins de VRAM, mais certains modèles produisent des images noires/NaN. BF16 : moitié moins de VRAM et stable numériquement — recommandé pour les GPU à faible VRAM compatibles.',
   },
 }

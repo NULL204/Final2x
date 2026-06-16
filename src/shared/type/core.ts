@@ -7,6 +7,7 @@ export interface Final2xCoreConfig {
     output_path: string
     input_path: string[]
     use_tile: boolean
+    precision: string
     save_format: string
   }
   options: {

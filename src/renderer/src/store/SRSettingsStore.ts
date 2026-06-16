@@ -10,6 +10,7 @@ export const useSRSettingsStore = defineStore(
     const ghProxy: Ref<string | null> = ref(null)
     const targetScale: Ref<number | null> = ref(null)
     const useTile: Ref<boolean> = ref(true)
+    const precision: Ref<string> = ref('fp32')
     const saveFormat: Ref<string> = ref('.png')
 
     return {
@@ -18,6 +19,7 @@ export const useSRSettingsStore = defineStore(
       ghProxy,
       targetScale,
       useTile,
+      precision,
       saveFormat,
     }
   },

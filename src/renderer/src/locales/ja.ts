@@ -25,5 +25,7 @@ export const ja = {
     text18: 'プロキシ',
     text19: 'Format',
     text20: 'Tile Process',
+    text21: '精度',
+    text22: 'FP32：完全精度、最も正確だが VRAM 使用量が最大。FP16：VRAM 半減だが一部モデルで黒画像/NaN が発生。BF16：VRAM 半減かつ数値的に安定、対応する低 VRAM GPU に推奨。',
   },
 }
