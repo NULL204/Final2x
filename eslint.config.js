@@ -8,6 +8,7 @@ export default antfu(
       'node_modules',
       'build/*.js',
       'resources/*.js',
+      'packages/core/**',
     ],
     rules: {
       'no-console': 'off',

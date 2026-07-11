@@ -6,8 +6,9 @@ test:
 
 .PHONY: lint
 lint:
-	uv run --no-sync pre-commit install
-	uv run --no-sync pre-commit run --all-files
+	uv run --no-sync ruff check .
+	uv run --no-sync ruff format --check .
+	uv run --no-sync mypy Final2x_core tests
 
 .PHONY: gen
 gen:
@@ -15,11 +16,11 @@ gen:
 
 .PHONY: gen-ts
 gen-ts:
-	uv run --no-sync python scripts/gen_pretrained_model_name.py
+	uv run --no-sync python scripts/gen_pretrained_model_name.py --output ../../src/renderer/src/utils/modelOptions.ts
 
 .PHONY: build
 build:
-	uv build --wheel
+	uv build
 
 .PHONY: pyinstaller
 pyinstaller:

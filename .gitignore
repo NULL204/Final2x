@@ -7,3 +7,8 @@ out
 /outputs/
 /.idea
 /coverage/
+/packages/core/.venv/
+/packages/core/build/
+/packages/core/dist/
+/packages/core/coverage.xml
+/packages/core/htmlcov/

@@ -34,7 +34,7 @@ class SRWrapper:
 
         logger.info("SR Class init, device: " + str(self._SR_class.device))
 
-    @logger.catch  # type: ignore
+    @logger.catch
     def process(self, img: np.ndarray) -> np.ndarray:
         """
         set target size, and process image
@@ -44,10 +44,8 @@ class SRWrapper:
 
         _origin_size = (img.shape[1], img.shape[0])
 
-        _target_size = (
-            math.ceil(img.shape[1] * self.config.target_scale),
-            math.ceil(img.shape[0] * self.config.target_scale),
-        )
+        target_scale = self.config.target_scale or 2
+        _target_size = (math.ceil(img.shape[1] * target_scale), math.ceil(img.shape[0] * target_scale))
 
         img = self._SR_class.inference_image(img)
         PrintProgressLog().printProgress()

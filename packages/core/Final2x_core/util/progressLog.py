@@ -14,7 +14,7 @@ class PrintProgressLog:
         self.progressCurrent = 0
         self.sr_n = 1
 
-    @logger.catch(reraise=True)  # type: ignore
+    @logger.catch(reraise=True)
     def set(self, total_file: int, sr_n: int) -> None:
         if total_file <= 0:
             raise AssertionError("Total must be greater than 0")
@@ -23,13 +23,13 @@ class PrintProgressLog:
         self.Total = total_file * sr_n
         self.sr_n = sr_n
 
-    @logger.catch  # type: ignore
+    @logger.catch
     def printProgress(self) -> None:
         self.progressCurrent += 1
         percentage: float = round(self.progressCurrent / self.Total * 100, 1)
         logger.info("Processing------[ " + str(percentage) + "% ]")
 
-    @logger.catch  # type: ignore
+    @logger.catch
     def skipProgress(self) -> None:
         for _ in range(self.sr_n):
             self.printProgress()

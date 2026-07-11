@@ -17,9 +17,9 @@ test = [
   "scikit-image"
 ]
 typing = [
-  "pre-commit",
   "mypy",
-  "ruff"
+  "ruff",
+  "types-PyYAML"
 ]
 
 [project]
@@ -48,8 +48,9 @@ version = "4.0.0"
 Final2x-core = "Final2x_core.__main__:main"
 
 [project.urls]
-Homepage = "https://github.com/EutropicAI/Final2x-core"
-Repository = "https://github.com/EutropicAI/Final2x-core"
+Homepage = "https://github.com/EutropicAI/Final2x/tree/main/packages/core"
+Issues = "https://github.com/EutropicAI/Final2x/issues"
+Repository = "https://github.com/EutropicAI/Final2x"
 
 [tool.coverage.report]
 exclude_also = [
