@@ -7,6 +7,7 @@ out
 /outputs/
 /.idea
 /coverage/
+/*.spec
 /packages/core/.venv/
 /packages/core/build/
 /packages/core/dist/

@@ -30,7 +30,7 @@
     "core:lint": "uv run --project packages/core ruff check packages/core && uv run --project packages/core ruff format --check packages/core && uv run --project packages/core mypy --config-file packages/core/pyproject.toml packages/core/Final2x_core packages/core/tests",
     "core:test": "uv run --project packages/core python packages/core/scripts/gen_config.py && uv run --project packages/core pytest packages/core/tests --cov=Final2x_core --cov-report=xml:packages/core/coverage.xml --cov-report=html:packages/core/htmlcov",
     "core:build": "uv build packages/core",
-    "core:bundle": "uv run --project packages/core python packages/core/scripts/gen_config.py && uv run --project packages/core pyinstaller --noconfirm --name Final2x-core --icon packages/core/assets/favicon.ico --distpath packages/core/dist --workpath packages/core/build --specpath packages/core packages/core/Final2x_core/__main__.py && uv run --project packages/core python packages/core/scripts/post_pyinstaller.py && node ./scripts/stage-core.mjs",
+    "core:bundle": "uv run --project packages/core python packages/core/scripts/gen_config.py && uv run --project packages/core pyinstaller --noconfirm --name Final2x-core --icon packages/core/assets/favicon.ico --distpath packages/core/dist --workpath packages/core/build packages/core/Final2x_core/__main__.py && uv run --project packages/core python packages/core/scripts/post_pyinstaller.py && node ./scripts/stage-core.mjs",
     "build:mac-arm64": "pnpm run build && electron-builder --mac --arm64 --publish=never",
     "build:mac-x64": "pnpm run build && electron-builder --mac --x64 --publish=never",
     "build:win-arm64": "pnpm run build && electron-builder --win --arm64 --dir --publish=never",
