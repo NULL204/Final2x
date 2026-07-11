@@ -19,7 +19,7 @@ class PrintProgressLog:
         if total_file <= 0:
             raise AssertionError("Total must be greater than 0")
         if sr_n < 1:
-            raise AssertionError("sr_n must be greater than 1")
+            raise AssertionError("sr_n must be at least 1")
         self.Total = total_file * sr_n
         self.sr_n = sr_n
 

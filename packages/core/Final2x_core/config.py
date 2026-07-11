@@ -5,7 +5,7 @@ from typing import Any, List, Optional, Union
 
 import yaml
 from cccv import ConfigType
-from pydantic import BaseModel, DirectoryPath, FilePath, field_validator
+from pydantic import BaseModel, DirectoryPath, Field, FilePath, field_validator
 
 
 class SRConfig(BaseModel):
@@ -14,7 +14,7 @@ class SRConfig(BaseModel):
     use_tile: Optional[bool] = None
     precision: str = "fp32"  # "fp32" | "fp16" | "bf16"
     gh_proxy: Optional[str] = None
-    target_scale: Optional[Union[int, float]] = None
+    target_scale: Union[int, float] = Field(default=2, validate_default=True)
     output_path: DirectoryPath
     input_path: List[FilePath]
     save_format: Optional[str] = ".png"
@@ -27,10 +27,7 @@ class SRConfig(BaseModel):
             except Exception as e:
                 raise ValueError(f"Error loading config: {e}")
 
-        cfg = cls(**config)
-        if cfg.target_scale is None or cfg.target_scale <= 0:
-            cfg.target_scale = 2
-        return cfg
+        return cls(**(config or {}))
 
     @classmethod
     def from_json_str(cls, json_str: str) -> Any:
@@ -39,10 +36,7 @@ class SRConfig(BaseModel):
         except Exception as e:
             raise ValueError(f"Error loading config: {e}")
 
-        cfg = cls(**config)
-        if cfg.target_scale is None or cfg.target_scale <= 0:
-            cfg.target_scale = 2
-        return cfg
+        return cls(**(config or {}))
 
     @classmethod
     def from_base64(cls, base64_str: str) -> Any:
@@ -62,6 +56,13 @@ class SRConfig(BaseModel):
                 return v
 
         raise ValueError(f"device must start with {device_list}")
+
+    @field_validator("target_scale", mode="before")
+    @classmethod
+    def target_scale_match(cls, v: Optional[Union[int, float]]) -> Union[int, float]:
+        if v is None or v <= 0:
+            return 2
+        return v
 
     @field_validator("precision")
     def precision_match(cls, v: str) -> str:

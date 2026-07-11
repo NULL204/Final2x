@@ -51,6 +51,13 @@ class Test_SRConfig:
             config.precision = "invalid"
             SRConfig.from_json_str(config.model_dump_json())
 
+    @pytest.mark.parametrize("target_scale", [None, 0, -1])
+    def test_target_scale_defaults_to_two(self, target_scale: float | None) -> None:
+        config = SRConfig.from_yaml(CONFIG_PATH)
+        config_dict = config.model_dump()
+        config_dict["target_scale"] = target_scale
+        assert SRConfig(**config_dict).target_scale == 2
+
     def test_error_device(self) -> None:
         config: SRConfig
         with pytest.raises(ValueError):

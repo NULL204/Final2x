@@ -42,8 +42,6 @@ class SRWrapper:
         :return:
         """
 
-        _origin_size = (img.shape[1], img.shape[0])
-
         target_scale = self.config.target_scale or 2
         _target_size = (math.ceil(img.shape[1] * target_scale), math.ceil(img.shape[0] * target_scale))
 

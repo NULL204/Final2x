@@ -14,17 +14,16 @@ def get_device(device: str) -> Union[torch.device, str]:
 
     if device.startswith("auto"):
         return DEFAULT_DEVICE
-    elif device.startswith("cpu"):
-        return torch.device("cpu")
-    elif device.startswith("cuda"):
-        return torch.device("cuda")
-    elif device.startswith("mps"):
-        return torch.device("mps")
     elif device.startswith("directml"):
         import torch_directml
 
+        if ":" in device:
+            try:
+                return torch_directml.device(int(device.split(":", maxsplit=1)[1]))
+            except (ValueError, IndexError):
+                pass
         return torch_directml.device()
-    elif device.startswith("xpu"):
-        return torch.device("xpu")
+    elif any(device.startswith(prefix) for prefix in ("cpu", "cuda", "mps", "xpu")):
+        return torch.device(device)
     else:
         return DEFAULT_DEVICE
