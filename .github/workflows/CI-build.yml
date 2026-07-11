@@ -16,6 +16,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ci-build-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   windows:
     strategy:
@@ -60,7 +64,7 @@ jobs:
         shell: pwsh
         run: |
           $directory = if ('${{ matrix.arch }}' -eq 'x64') { 'dist/win-unpacked' } else { 'dist/win-arm64-unpacked' }
-          7z a -r "Final2x-windows-${{ matrix.arch }}-unpacked.7z" "$directory/*"
+          7z a -mx=1 -r "Final2x-windows-${{ matrix.arch }}-unpacked.7z" "$directory/*"
 
       - name: Upload unpacked app
         uses: actions/upload-artifact@v4
@@ -104,7 +108,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
 
       - name: Archive unpacked app
-        run: 7z a -r Final2x-macos-arm64-unpacked.7z dist/mac-arm64/*
+        run: 7z a -mx=1 -r Final2x-macos-arm64-unpacked.7z dist/mac-arm64/*
 
       - name: Upload dmg
         uses: actions/upload-artifact@v4
@@ -138,7 +142,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
 
       - name: Archive unpacked app
-        run: 7z a -r Final2x-linux-pip-x64-unpacked.7z dist/linux-unpacked/*
+        run: 7z a -mx=1 -r Final2x-linux-pip-x64-unpacked.7z dist/linux-unpacked/*
 
       - name: Upload packages
         uses: actions/upload-artifact@v4
