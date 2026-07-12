@@ -2,6 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
 import { fileURLToPath } from 'node:url'
+import { readCoreVersion, replaceCoreVersion } from './core-version.mjs'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const packagePath = path.join(root, 'package.json')
@@ -17,19 +18,13 @@ if (!version || typeof version !== 'string') {
 }
 
 const pyproject = fs.readFileSync(pyprojectPath, 'utf8')
-const versionPattern = /^(version = ")([^"]+)(")$/m
-const match = pyproject.match(versionPattern)
-if (!match) {
-  throw new Error('Could not find [project].version in packages/core/pyproject.toml')
-}
-
-const coreVersion = match[2]
+const coreVersion = readCoreVersion(pyproject)
 if (check && coreVersion !== version) {
   throw new Error(`Version mismatch: package.json=${version}, Python core=${coreVersion}`)
 }
 
 if (!check && coreVersion !== version) {
-  fs.writeFileSync(pyprojectPath, pyproject.replace(versionPattern, `$1${version}$3`))
+  fs.writeFileSync(pyprojectPath, replaceCoreVersion(pyproject, version))
   console.log(`Updated Python core version: ${coreVersion} -> ${version}`)
 }
 

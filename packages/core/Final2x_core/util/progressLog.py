@@ -21,6 +21,7 @@ class PrintProgressLog:
         if sr_n < 1:
             raise AssertionError("sr_n must be at least 1")
         self.Total = total_file * sr_n
+        self.progressCurrent = 0
         self.sr_n = sr_n
 
     @logger.catch
