@@ -96,13 +96,13 @@ jobs:
         shell: pwsh
         run: |
           $directory = if ('${{ matrix.arch }}' -eq 'x64') { 'dist/win-unpacked' } else { 'dist/win-arm64-unpacked' }
-          7z a -mx=1 -r "Final2x-windows-${{ matrix.arch }}-unpacked.7z" "$directory/*"
+          7z a -mx=1 -v1900m -r "Final2x-windows-${{ matrix.arch }}-unpacked.7z" "$directory/*"
 
       - name: Upload unpacked app
         uses: actions/upload-artifact@v4
         with:
           name: Final2x-windows-${{ matrix.arch }}-unpacked
-          path: Final2x-windows-${{ matrix.arch }}-unpacked.7z
+          path: Final2x-windows-${{ matrix.arch }}-unpacked.7z.*
 
   macos:
     needs: validate
