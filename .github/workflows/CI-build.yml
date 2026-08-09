@@ -42,12 +42,12 @@ jobs:
           version: 0.11.28
           python-version: '3.11'
           enable-cache: true
-          cache-dependency-glob: packages/core/uv.lock
+          cache-dependency-glob: core/uv.lock
 
       - name: Install dependencies
         run: |
           pnpm install --frozen-lockfile
-          uv sync --project packages/core --locked --no-default-groups --group dev
+          uv sync --project core --locked --no-default-groups --group dev
 
       - name: Build bundled core
         run: pnpm run core:bundle
@@ -89,12 +89,12 @@ jobs:
           version: 0.11.28
           python-version: '3.11'
           enable-cache: true
-          cache-dependency-glob: packages/core/uv.lock
+          cache-dependency-glob: core/uv.lock
 
       - name: Install dependencies
         run: |
           pnpm install --frozen-lockfile
-          uv sync --project packages/core --locked --no-default-groups --group dev
+          uv sync --project core --locked --no-default-groups --group dev
 
       - name: Build bundled core
         run: pnpm run core:bundle

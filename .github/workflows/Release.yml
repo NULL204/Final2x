@@ -38,19 +38,19 @@ jobs:
         run: node scripts/sync-core-version.mjs --check --tag "${{ github.ref_name }}"
 
       - name: Build Python distributions
-        run: uv build packages/core
+        run: uv build core
 
       - name: Check Python distribution metadata
-        run: uvx --from twine==6.2.0 twine check packages/core/dist/*
+        run: uvx --from twine==6.2.0 twine check core/dist/*
 
       - name: Smoke-test CLI
-        run: uv run --project packages/core Final2x-core -h
+        run: uv run --project core Final2x-core -h
 
       - name: Upload Python distributions
         uses: actions/upload-artifact@v4
         with:
           name: python-distributions
-          path: packages/core/dist/*
+          path: core/dist/*
 
   windows:
     needs: validate
@@ -74,12 +74,12 @@ jobs:
           version: 0.11.28
           python-version: '3.11'
           enable-cache: true
-          cache-dependency-glob: packages/core/uv.lock
+          cache-dependency-glob: core/uv.lock
 
       - name: Install dependencies
         run: |
           pnpm install --frozen-lockfile
-          uv sync --project packages/core --locked --no-default-groups --group dev
+          uv sync --project core --locked --no-default-groups --group dev
 
       - name: Build bundled core
         run: pnpm run core:bundle
@@ -122,12 +122,12 @@ jobs:
           version: 0.11.28
           python-version: '3.11'
           enable-cache: true
-          cache-dependency-glob: packages/core/uv.lock
+          cache-dependency-glob: core/uv.lock
 
       - name: Install dependencies
         run: |
           pnpm install --frozen-lockfile
-          uv sync --project packages/core --locked --no-default-groups --group dev
+          uv sync --project core --locked --no-default-groups --group dev
 
       - name: Build bundled core
         run: pnpm run core:bundle
@@ -212,12 +212,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: python-distributions
-          path: packages/core/dist
+          path: core/dist
 
       - name: Publish Python distribution to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          packages-dir: packages/core/dist/
+          packages-dir: core/dist/
 
   github-release:
     needs: [windows, macos, linux, pypi]

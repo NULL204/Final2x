@@ -57,10 +57,10 @@ jobs:
           version: 0.11.28
           python-version: ${{ matrix.python-version }}
           enable-cache: true
-          cache-dependency-glob: packages/core/uv.lock
+          cache-dependency-glob: core/uv.lock
 
       - name: Install dependencies
-        run: uv sync --project packages/core --locked
+        run: uv sync --project core --locked
 
       - name: Check shared version
         run: node scripts/sync-core-version.mjs --check
@@ -68,19 +68,19 @@ jobs:
       - name: Check generated frontend model options
         if: matrix.os == 'ubuntu-latest'
         run: |
-          uv run --project packages/core python packages/core/scripts/gen_pretrained_model_name.py --output src/renderer/src/utils/modelOptions.ts
+          uv run --project core python core/scripts/gen_pretrained_model_name.py --output src/renderer/src/utils/modelOptions.ts
           git diff --exit-code -- src/renderer/src/utils/modelOptions.ts
 
       - name: Lint Python core
         run: |
-          uv run --project packages/core ruff check packages/core
-          uv run --project packages/core ruff format --check packages/core
-          uv run --project packages/core mypy --config-file packages/core/pyproject.toml packages/core/Final2x_core packages/core/tests
+          uv run --project core ruff check core
+          uv run --project core ruff format --check core
+          uv run --project core mypy --config-file core/pyproject.toml core/Final2x_core core/tests
 
       - name: Test Python core
         run: |
-          uv run --project packages/core python packages/core/scripts/gen_config.py
-          uv run --project packages/core pytest packages/core/tests --cov=Final2x_core --cov-report=xml:packages/core/coverage.xml
+          uv run --project core python core/scripts/gen_config.py
+          uv run --project core pytest core/tests --cov=Final2x_core --cov-report=xml:core/coverage.xml
 
       - name: Upload coverage
         if: matrix.os == 'ubuntu-latest'
@@ -88,7 +88,7 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: packages/core/coverage.xml
+          files: core/coverage.xml
 
   python-package:
     runs-on: ubuntu-latest
@@ -102,13 +102,13 @@ jobs:
           python-version: '3.11'
 
       - name: Build wheel and source distribution
-        run: uv build packages/core
+        run: uv build core
 
       - name: Smoke-test CLI
-        run: uv run --project packages/core Final2x-core -h
+        run: uv run --project core Final2x-core -h
 
       - name: Upload distributions
         uses: actions/upload-artifact@v4
         with:
           name: python-distributions
-          path: packages/core/dist/*
+          path: core/dist/*

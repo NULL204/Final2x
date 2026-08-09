@@ -6,7 +6,7 @@ import { readCoreVersion, replaceCoreVersion } from './core-version.mjs'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const packagePath = path.join(root, 'package.json')
-const pyprojectPath = path.join(root, 'packages', 'core', 'pyproject.toml')
+const pyprojectPath = path.join(root, 'core', 'pyproject.toml')
 const args = process.argv.slice(2)
 const check = args.includes('--check')
 const tagIndex = args.indexOf('--tag')

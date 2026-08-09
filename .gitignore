@@ -9,8 +9,8 @@ out
 /coverage/
 /.coverage
 /*.spec
-/packages/core/.venv/
-/packages/core/build/
-/packages/core/dist/
-/packages/core/coverage.xml
-/packages/core/htmlcov/
+/core/.venv/
+/core/build/
+/core/dist/
+/core/coverage.xml
+/core/htmlcov/

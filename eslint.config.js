@@ -12,7 +12,7 @@ export default antfu(
       'build/*.js',
       'resources/*.js',
       'resources/Final2x-core',
-      'packages/core',
+      'core',
     ],
     rules: {
       'no-console': 'off',

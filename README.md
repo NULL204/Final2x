@@ -58,7 +58,7 @@ apt install -y libomp5 xdg-utils
 
 ### Reference
 
-The Python CLI and desktop backend now live in [`packages/core`](./packages/core) and are released with the desktop app under the same version number.
+The Python CLI and desktop backend now live in [`core`](./core) and are released with the desktop app under the same version number.
 
 The following references were referenced in the development of this project:
 

@@ -3,7 +3,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-const source = path.join(root, 'packages', 'core', 'dist', 'Final2x-core')
+const source = path.join(root, 'core', 'dist', 'Final2x-core')
 const target = path.join(root, 'resources', 'Final2x-core')
 
 if (!fs.existsSync(source)) {

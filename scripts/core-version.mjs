@@ -5,7 +5,7 @@ const tableHeaderPattern = /^[ \t]*\[/m
 function findCoreVersion(pyproject) {
   const projectHeader = pyproject.match(projectHeaderPattern)
   if (!projectHeader || projectHeader.index === undefined) {
-    throw new Error('Could not find [project].version in packages/core/pyproject.toml')
+    throw new Error('Could not find [project].version in core/pyproject.toml')
   }
 
   const sectionStart = projectHeader.index + projectHeader[0].length
@@ -18,7 +18,7 @@ function findCoreVersion(pyproject) {
   const versionMatch = projectSection.match(projectVersionPattern)
 
   if (!versionMatch || versionMatch.index === undefined) {
-    throw new Error('Could not find [project].version in packages/core/pyproject.toml')
+    throw new Error('Could not find [project].version in core/pyproject.toml')
   }
 
   return {

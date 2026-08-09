@@ -21,7 +21,7 @@ From a clean `main` checkout:
 pnpm version 4.1.0 --no-git-tag-version
 pnpm run version:sync
 pnpm run version:check
-git add package.json packages/core/pyproject.toml packages/core/uv.lock
+git add package.json core/pyproject.toml core/uv.lock
 git commit -m "release: v4.1.0"
 git tag -a v4.1.0 -m "v4.1.0"
 git push origin main v4.1.0
@@ -57,4 +57,4 @@ pnpm run typecheck
 pnpm run test
 ```
 
-Run `pnpm run core:bundle` before building a Windows or macOS desktop package locally. It builds the core from `packages/core` and stages it in the ignored `resources/Final2x-core` directory.
+Run `pnpm run core:bundle` before building a Windows or macOS desktop package locally. It builds the core from `core` and stages it in the ignored `resources/Final2x-core` directory.
