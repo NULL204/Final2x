@@ -49,10 +49,9 @@ pnpm install --frozen-lockfile
 pnpm run version:check
 pnpm run core:sync
 pnpm run core:generate
-pnpm run core:lint
+pnpm run lint
 pnpm run core:test
 pnpm run core:build
-pnpm run lint
 pnpm run typecheck
 pnpm run test
 ```
