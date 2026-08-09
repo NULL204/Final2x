@@ -107,6 +107,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
 
+      - name: Validate packaged core
+        run: |
+          node scripts/validate-core-bundle.mjs dist/mac-arm64/Final2x.app/Contents/Resources/Final2x-core
+          dist/mac-arm64/Final2x.app/Contents/Resources/Final2x-core/Final2x-core -h
+
       - name: Archive unpacked app
         run: 7z a -mx=1 -r Final2x-macos-arm64-unpacked.7z dist/mac-arm64/*
 
