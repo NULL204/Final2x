@@ -150,8 +150,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
 
-      - name: Smoke-test packaged core
-        run: dist/mac-arm64/Final2x.app/Contents/Resources/Final2x-core/Final2x-core -h
+      - name: Smoke-test self-contained packaged core
+        run: |
+          mv core/dist/Final2x-core "$RUNNER_TEMP/Final2x-core-build"
+          mv resources/Final2x-core "$RUNNER_TEMP/Final2x-core-staged"
+          dist/mac-arm64/Final2x.app/Contents/Resources/Final2x-core/Final2x-core -h
 
       - name: Rename dmg
         run: mv dist/*.dmg dist/Final2x-macos-arm64-dmg.dmg
