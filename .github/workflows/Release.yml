@@ -84,6 +84,9 @@ jobs:
       - name: Build bundled core
         run: pnpm run core:bundle
 
+      - name: Copy bundled core
+        run: Copy-Item core\dist\Final2x-core resources\Final2x-core -Recurse
+
       - name: Smoke-test bundled core
         run: resources\Final2x-core\Final2x-core.exe -h
 
@@ -132,6 +135,9 @@ jobs:
       - name: Build bundled core
         run: pnpm run core:bundle
 
+      - name: Copy bundled core
+        run: cp -R core/dist/Final2x-core resources/
+
       - name: Smoke-test bundled core
         run: resources/Final2x-core/Final2x-core -h
 
@@ -139,6 +145,9 @@ jobs:
         run: pnpm run build:mac-arm64
         env:
           GH_TOKEN: ${{ github.token }}
+
+      - name: Smoke-test packaged core
+        run: dist/mac-arm64/Final2x.app/Contents/Resources/Final2x-core/Final2x-core -h
 
       - name: Rename dmg
         run: mv dist/*.dmg dist/Final2x-macos-arm64-dmg.dmg

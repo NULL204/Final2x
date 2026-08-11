@@ -56,4 +56,4 @@ pnpm run typecheck
 pnpm run test
 ```
 
-Run `pnpm run core:bundle` before building a Windows or macOS desktop package locally. It builds the core from `core` and stages it in the ignored `resources/Final2x-core` directory.
+Run `pnpm run core:bundle` before building a Windows or macOS desktop package locally. It builds the core in `core/dist/Final2x-core`; copy it with `cp -R core/dist/Final2x-core resources/` on macOS or `Copy-Item core\dist\Final2x-core resources\Final2x-core -Recurse` in Windows PowerShell before running the desktop build, matching the CI and release workflows.
