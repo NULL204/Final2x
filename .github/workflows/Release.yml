@@ -99,13 +99,17 @@ jobs:
         shell: pwsh
         run: |
           $directory = if ('${{ matrix.arch }}' -eq 'x64') { 'dist/win-unpacked' } else { 'dist/win-arm64-unpacked' }
-          7z a -mx=1 -v1900m -r "Final2x-windows-${{ matrix.arch }}-unpacked.7z" "$directory/*"
+          Push-Location $directory
+          7z a -mx=1 -v1900m -r "Final2x-windows-${{ matrix.arch }}-unpacked.7z" *
+          Pop-Location
 
       - name: Upload unpacked app
         uses: actions/upload-artifact@v4
         with:
           name: Final2x-windows-${{ matrix.arch }}-unpacked
-          path: Final2x-windows-${{ matrix.arch }}-unpacked.7z.*
+          path: |
+            dist/win-unpacked/Final2x-windows-${{ matrix.arch }}-unpacked.7z.*
+            dist/win-arm64-unpacked/Final2x-windows-${{ matrix.arch }}-unpacked.7z.*
 
   macos:
     needs: validate
@@ -153,7 +157,9 @@ jobs:
         run: mv dist/*.dmg dist/Final2x-macos-arm64-dmg.dmg
 
       - name: Archive unpacked app
-        run: 7z a -mx=1 -r Final2x-macos-arm64-unpacked.7z dist/mac-arm64/*
+        run: |
+          cd dist/mac-arm64
+          7z a -mx=1 -r Final2x-macos-arm64-unpacked.7z ./*
 
       - name: Upload dmg
         uses: actions/upload-artifact@v4
@@ -165,7 +171,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Final2x-macos-arm64-unpacked
-          path: Final2x-macos-arm64-unpacked.7z
+          path: dist/mac-arm64/Final2x-macos-arm64-unpacked.7z
 
   linux:
     needs: validate
@@ -194,7 +200,9 @@ jobs:
           mv dist/*.deb dist/Final2x-linux-pip-x64-deb.deb
 
       - name: Archive unpacked app
-        run: 7z a -mx=1 -r dist/Final2x-linux-pip-x64-unpacked.7z dist/linux-unpacked/*
+        run: |
+          cd dist/linux-unpacked
+          7z a -mx=1 -r Final2x-linux-pip-x64-unpacked.7z ./*
 
       - name: Upload packages
         uses: actions/upload-artifact@v4
@@ -204,7 +212,7 @@ jobs:
             dist/Final2x-linux-pip-x64-snap.snap
             dist/Final2x-linux-pip-x64-AppImage.AppImage
             dist/Final2x-linux-pip-x64-deb.deb
-            dist/Final2x-linux-pip-x64-unpacked.7z
+            dist/linux-unpacked/Final2x-linux-pip-x64-unpacked.7z
 
   pypi:
     if: github.repository == 'EutropicAI/Final2x' && github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
