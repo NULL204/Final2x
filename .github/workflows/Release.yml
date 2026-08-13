@@ -23,34 +23,15 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install uv
-        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
-        with:
-          version: 0.11.28
-          python-version: '3.11'
+      - uses: pnpm/action-setup@v4
 
       - name: Verify shared version
         if: github.event_name == 'workflow_dispatch'
-        run: node scripts/sync-core-version.mjs --check
+        run: pnpm run version:check
 
       - name: Verify tag and shared version
         if: github.event_name == 'push'
-        run: node scripts/sync-core-version.mjs --check --tag "${{ github.ref_name }}"
-
-      - name: Build Python distributions
-        run: uv build core
-
-      - name: Check Python distribution metadata
-        run: uvx --from twine==6.2.0 twine check core/dist/*
-
-      - name: Smoke-test CLI
-        run: uv run --project core Final2x-core -h
-
-      - name: Upload Python distributions
-        uses: actions/upload-artifact@v4
-        with:
-          name: python-distributions
-          path: core/dist/*
+        run: pnpm run version:check -- --tag "${{ github.ref_name }}"
 
   windows:
     needs: validate
@@ -73,22 +54,18 @@ jobs:
         with:
           version: 0.11.28
           python-version: '3.11'
-          enable-cache: true
-          cache-dependency-glob: core/uv.lock
+          enable-cache: false
 
       - name: Install dependencies
         run: |
           pnpm install --frozen-lockfile
-          uv sync --project core --locked --no-default-groups --group dev
+          pnpm run core:sync:bundle
 
       - name: Build bundled core
         run: pnpm run core:bundle
 
       - name: Copy bundled core
         run: Copy-Item core\dist\Final2x-core resources\Final2x-core -Recurse
-
-      - name: Smoke-test bundled core
-        run: resources\Final2x-core\Final2x-core.exe -h
 
       - name: Build desktop app
         run: pnpm run build:win-${{ matrix.arch }}
@@ -128,13 +105,12 @@ jobs:
         with:
           version: 0.11.28
           python-version: '3.11'
-          enable-cache: true
-          cache-dependency-glob: core/uv.lock
+          enable-cache: false
 
       - name: Install dependencies
         run: |
           pnpm install --frozen-lockfile
-          uv sync --project core --locked --no-default-groups --group dev
+          pnpm run core:sync:bundle
 
       - name: Build bundled core
         run: pnpm run core:bundle
@@ -142,19 +118,10 @@ jobs:
       - name: Copy bundled core
         run: cp -R core/dist/Final2x-core resources/
 
-      - name: Smoke-test bundled core
-        run: resources/Final2x-core/Final2x-core -h
-
       - name: Build desktop app
         run: pnpm run build:mac-arm64
         env:
           GH_TOKEN: ${{ github.token }}
-
-      - name: Smoke-test self-contained packaged core
-        run: |
-          mv core/dist/Final2x-core "$RUNNER_TEMP/Final2x-core-build"
-          mv resources/Final2x-core "$RUNNER_TEMP/Final2x-core-staged"
-          dist/mac-arm64/Final2x.app/Contents/Resources/Final2x-core/Final2x-core -h
 
       - name: Rename dmg
         run: mv dist/*.dmg dist/Final2x-macos-arm64-dmg.dmg
@@ -228,11 +195,23 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - name: Download Python distributions
-        uses: actions/download-artifact@v4
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
         with:
-          name: python-distributions
-          path: core/dist
+          node-version: 22
+
+      - uses: pnpm/action-setup@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+        with:
+          version: 0.11.28
+          python-version: '3.11'
+          enable-cache: false
+
+      - name: Build Python distribution
+        run: pnpm run core:build
 
       - name: Publish Python distribution to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1

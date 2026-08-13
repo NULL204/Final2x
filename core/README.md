@@ -3,7 +3,7 @@
 ![MacOS](https://img.shields.io/badge/Support-MacOS-blue?logo=Apple&style=flat-square)
 ![Windows](https://img.shields.io/badge/Support-Windows-blue?logo=Windows&style=flat-square)
 ![Linux](https://img.shields.io/badge/Support-Linux-blue?logo=Linux&style=flat-square)
-[![CI-test](https://github.com/EutropicAI/Final2x/actions/workflows/CI-test.yml/badge.svg)](https://github.com/EutropicAI/Final2x/actions/workflows/CI-test.yml)
+[![CI-test-core](https://github.com/EutropicAI/Final2x/actions/workflows/CI-test-core.yml/badge.svg)](https://github.com/EutropicAI/Final2x/actions/workflows/CI-test-core.yml)
 [![Release](https://github.com/EutropicAI/Final2x/actions/workflows/Release.yml/badge.svg)](https://github.com/EutropicAI/Final2x/actions/workflows/Release.yml)
 [![PyPI version](https://badge.fury.io/py/Final2x-core.svg)](https://badge.fury.io/py/Final2x-core)
 ![GitHub](https://img.shields.io/github/license/EutropicAI/Final2x)

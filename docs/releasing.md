@@ -27,20 +27,20 @@ git tag -a v4.1.0 -m "v4.1.0"
 git push origin main v4.1.0
 ```
 
-Replace `4.1.0` with the intended version. A `v*` tag starts one workflow that verifies the shared version, builds the Python distributions and desktop artifacts, publishes the Python package to PyPI, and creates the GitHub Release.
+Replace `4.1.0` with the intended version. A `v*` tag starts one workflow that verifies the shared version, builds the desktop artifacts, builds and publishes the Python package from the PyPI job, and creates the GitHub Release.
 
 The workflow rejects a tag that does not exactly match `package.json`. Do not reuse a published tag or version.
 
 ## Validate the release workflow
 
-The `Release` workflow can be run manually from the Actions tab. A manual run builds and validates the Python distributions and all desktop artifacts, but it does not publish to PyPI or create a GitHub Release.
+The `Release` workflow can be run manually from the Actions tab. A manual run verifies the shared version and builds all desktop artifacts, but it does not run the test suites, publish to PyPI, or create a GitHub Release.
 
 Tag-triggered publishing is repository-aware:
 
 - Tags in `EutropicAI/Final2x` publish to PyPI and create the official GitHub Release.
 - Tags in a fork skip PyPI and create a prerelease in that fork, so the complete GitHub Release path can be tested without granting the fork access to the official PyPI project.
 
-PyPI upload readiness is checked in every run with `twine check`. A successful fork validation confirms that the wheel and source distribution can be built and have valid package metadata; the official PyPI Trusted Publisher configuration remains the final authorization gate.
+Python unit tests, standalone Core bundle tests, wheel installation tests, and the supported PyTorch compatibility matrix run in `CI-test-core.yml`. Release jobs consume the same root `package.json` commands but do not repeat those tests. The official PyPI Trusted Publisher configuration remains the final authorization gate.
 
 ## Local checks
 
@@ -48,9 +48,8 @@ PyPI upload readiness is checked in every run with `twine check`. A successful f
 pnpm install --frozen-lockfile
 pnpm run version:check
 pnpm run core:sync
-pnpm run core:generate
+pnpm run core:check
 pnpm run lint
-pnpm run core:test
 pnpm run core:build
 pnpm run typecheck
 pnpm run test

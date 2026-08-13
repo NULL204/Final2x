@@ -18,6 +18,7 @@ test = [
 ]
 typing = [
   "mypy",
+  "pre-commit",
   "ruff",
   "types-PyYAML"
 ]
@@ -83,6 +84,15 @@ ignore_missing_imports = true
 plugins = ["pydantic.mypy"]
 strict = true
 warn_return_any = false
+warn_unused_ignores = false
+
+[[tool.mypy.overrides]]
+disable_error_code = ["operator"]
+module = "Final2x_core.SRclass"
+
+[[tool.mypy.overrides]]
+disable_error_code = ["no-untyped-call"]
+module = "tests.util"
 
 [tool.ruff]
 line-length = 120

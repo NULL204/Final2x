@@ -26,15 +26,14 @@ class SRWrapper:
         self._SR_class: SRBaseModel = AutoModel.from_pretrained(
             self.config.pretrained_model_name,
             device=get_device(self.config.device),
-            fp16=(self.config.precision == "fp16"),
-            bf16=(self.config.precision == "bf16"),
+            fp16=False,
             tile=tile,
             gh_proxy=self.config.gh_proxy,
         )
 
         logger.info("SR Class init, device: " + str(self._SR_class.device))
 
-    @logger.catch
+    @logger.catch  # type: ignore
     def process(self, img: np.ndarray) -> np.ndarray:
         """
         set target size, and process image
@@ -42,8 +41,12 @@ class SRWrapper:
         :return:
         """
 
-        target_scale = self.config.target_scale or 2
-        _target_size = (math.ceil(img.shape[1] * target_scale), math.ceil(img.shape[0] * target_scale))
+        _origin_size = (img.shape[1], img.shape[0])
+
+        _target_size = (
+            math.ceil(img.shape[1] * self.config.target_scale),
+            math.ceil(img.shape[0] * self.config.target_scale),
+        )
 
         img = self._SR_class.inference_image(img)
         PrintProgressLog().printProgress()

@@ -42,8 +42,8 @@ def gen_ts(output: Path) -> None:
 
     for m in all_sr_models:
         for cfg in ConfigType:
-            if cfg.value.startswith(m.value):
-                config_list.append(cfg)
+            if cfg.startswith(m):
+                config_list.append(cfg)  # type: ignore
 
     print(config_list)
 

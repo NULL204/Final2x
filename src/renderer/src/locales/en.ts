@@ -25,7 +25,5 @@ export const en = {
     text18: 'Proxy',
     text19: 'Format',
     text20: 'Tile Process',
-    text21: 'Precision',
-    text22: 'FP32: full precision, most accurate but uses the most VRAM. FP16: half the VRAM, but some models output black/NaN images. BF16: half the VRAM and numerically stable — recommended for low-VRAM GPUs that support it.',
   },
 }

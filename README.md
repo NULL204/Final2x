@@ -8,6 +8,7 @@
 ![Windows](https://img.shields.io/badge/Support-Windows-blue?logo=Windows&style=flat-square)
 ![Linux](https://img.shields.io/badge/Support-Linux-blue?logo=Linux&style=flat-square)
 [![CI-test](https://github.com/EutropicAI/Final2x/actions/workflows/CI-test.yml/badge.svg)](https://github.com/EutropicAI/Final2x/actions/workflows/CI-test.yml)
+[![CI-test-core](https://github.com/EutropicAI/Final2x/actions/workflows/CI-test-core.yml/badge.svg)](https://github.com/EutropicAI/Final2x/actions/workflows/CI-test-core.yml)
 [![CI-build](https://github.com/EutropicAI/Final2x/actions/workflows/CI-build.yml/badge.svg)](https://github.com/EutropicAI/Final2x/actions/workflows/CI-build.yml)
 [![Release](https://github.com/EutropicAI/Final2x/actions/workflows/Release.yml/badge.svg)](https://github.com/EutropicAI/Final2x/actions/workflows/Release.yml)
 ![Download](https://img.shields.io/github/downloads/EutropicAI/Final2x/total)

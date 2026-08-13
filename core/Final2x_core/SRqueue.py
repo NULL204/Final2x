@@ -30,7 +30,7 @@ def sr_queue(config: SRConfig) -> None:
         save_format = "." + save_format
 
     for img_path in input_path:
-        base_stem = f"{config.target_scale}x-{img_path.stem}"
+        base_stem = f"{config.target_scale}x-{Path(img_path).stem}"
         save_path = str(output_path / (base_stem + save_format))
         i: int = 0
         while Path(save_path).is_file():
@@ -39,7 +39,7 @@ def sr_queue(config: SRConfig) -> None:
             save_path = str(output_path / (base_stem + "(" + str(i) + ")" + save_format))
             logger.warning("Try to save to: " + save_path)
 
-        if not img_path.is_file():
+        if not Path(img_path).is_file():
             logger.error("File not found: " + str(img_path) + ", skip. Save path: " + save_path)
             logger.warning("______Skip_Image______: " + str(img_path))
             PrintProgressLog().skipProgress()
@@ -51,9 +51,6 @@ def sr_queue(config: SRConfig) -> None:
                 # The file may not be read correctly.
                 # In unix-like system, the Filename Extension is not important.
                 img = cv2.imdecode(np.fromfile(img_path, dtype=np.uint8), cv2.IMREAD_UNCHANGED)
-
-                if img is None:
-                    raise ValueError("Failed to decode image.")
 
                 if len(img.shape) == 2:
                     logger.warning("Grayscale image detected, Convert to RGB image.")
@@ -67,6 +64,8 @@ def sr_queue(config: SRConfig) -> None:
                     # Remove alpha channel from the image
                     img = img[:, :, :3]
 
+                if img is None:
+                    raise Exception("Failed to decode image.")
             except Exception as e:
                 logger.error(str(e))
                 logger.warning("CV2 load image failed: " + str(img_path) + ", skip. ")
